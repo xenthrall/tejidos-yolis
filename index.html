@@ -4,7 +4,66 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nativa</title>
+
+    <title>Tejidos Yolis | Ruanas artesanales de El Espino, Boyacá</title>
+    <meta
+      name="description"
+      content="Tejidos Yolis: ruanas artesanales tejidas a mano en El Espino, Boyacá. Tradición e hilo colombiano en cada prenda. Compra directo por WhatsApp."
+    />
+    <meta name="keywords" content="Tejidos Yolis, ruanas, ruanas artesanales, ruanas boyacenses, El Espino Boyacá, tejidos a mano, ropa tradicional colombiana" />
+
+    <!-- VITE_SITE_URL is centralized (no trailing slash): defaults to .env -->
+    <!-- for local builds, and the deploy workflow overrides it with the -->
+    <!-- Pages site's real base_url — so a repo rename or custom domain -->
+    <!-- only needs a GitHub Pages settings change, no edits here. -->
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- Open Graph (vista previa al compartir en WhatsApp, Facebook, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tejidos Yolis" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:title" content="Tejidos Yolis | Ruanas artesanales de El Espino, Boyacá" />
+    <meta
+      property="og:description"
+      content="Ruanas artesanales tejidas a mano en El Espino, Boyacá. Tradición e hilo colombiano en cada prenda."
+    />
+    <meta property="og:image" content="%VITE_SITE_URL%/tejidos-yolis.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1731" />
+    <meta property="og:image:height" content="909" />
+    <meta property="og:image:alt" content="Tejidos Yolis" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tejidos Yolis | Ruanas artesanales de El Espino, Boyacá" />
+    <meta
+      name="twitter:description"
+      content="Ruanas artesanales tejidas a mano en El Espino, Boyacá. Tradición e hilo colombiano en cada prenda."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/tejidos-yolis.png" />
+
+    <!-- Datos estructurados: ayuda a que buscadores entiendan que es una -->
+    <!-- tienda local de ruanas ubicada en El Espino, Boyacá. Mantener en -->
+    <!-- sync con src/site.config.js si cambian el nombre, redes o ubicación. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ClothingStore",
+        "name": "Tejidos Yolis",
+        "description": "Ruanas artesanales tejidas a mano en El Espino, Boyacá.",
+        "url": "%VITE_SITE_URL%/",
+        "image": "%VITE_SITE_URL%/tejidos-yolis.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "El Espino",
+          "addressRegion": "Boyacá",
+          "addressCountry": "CO"
+        },
+        "sameAs": ["https://www.instagram.com/yolanditarojas1", "https://wa.me/573143817069"]
+      }
+    </script>
+
     <script type="text/javascript">
       // Applied before first paint to avoid a flash of the wrong theme.
       // Kept in sync with src/lib/theme.js (same storage key and fallback).
