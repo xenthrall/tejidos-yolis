@@ -1,6 +1,8 @@
 import { Heart, LockKeyhole } from 'lucide'
+import githubSvg from 'simple-icons/icons/github.svg?raw'
 import { link } from '../router/router.js'
 import { icon } from '../lib/icons.js'
+import { brandIcon } from '../lib/brand-icons.js'
 
 export function renderFooter() {
   return `
@@ -15,6 +17,15 @@ export function renderFooter() {
             class="font-medium text-neutral-700 hover:underline dark:text-neutral-300"
           >
             Tequia
+          </a>
+          <a
+            href="https://github.com/xenthrall"
+            target="_blank"
+            rel="noopener"
+            title="Perfil de GitHub del desarrollador"
+            class="text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-300"
+          >
+            ${brandIcon(githubSvg, 'h-4 w-4')}
           </a>
         </p>
 

@@ -1,0 +1,145 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="28 26 232 186"
+  role="img"
+  aria-labelledby="ty-logo-title ty-logo-desc"
+  class="tejidos-logo h-auto w-full"
+>
+  <title id="ty-logo-title">Tejidos Yolis</title>
+  <desc id="ty-logo-desc">
+    Isotipo de una oveja de lana de cuerpo completo, símbolo de Tejidos Yolis.
+  </desc>
+
+  <!-- Paleta: se define sobre el propio SVG, así el logo es autosuficiente
+       y funciona en cualquier página sin depender de style.css.
+       El tema oscuro invierte tinta y lana (la clase .dark vive en <html>). -->
+  <style>
+    .tejidos-logo {
+      --ty-ink: #3d2415;
+      --ty-wool: #f3ead6;
+      --ty-hoof: #2a1a0f;
+      --ty-paper: #fffdf8;
+    }
+
+    .dark .tejidos-logo {
+      --ty-ink: #f2e8d3;
+      --ty-wool: #262019;
+      --ty-hoof: #cfc0a0;
+      --ty-paper: #191410;
+    }
+
+    .tejidos-logo .ty-ink {
+      fill: var(--ty-ink);
+    }
+
+    .tejidos-logo .ty-hoof {
+      fill: var(--ty-hoof);
+    }
+
+    .tejidos-logo .ty-paper {
+      fill: var(--ty-paper);
+    }
+
+    /* Vellón: se dibuja dos veces. Primero los círculos solo con trazo
+       (contorno) y encima los mismos círculos rellenos, que tapan los
+       trazos internos. Resultado: una silueta de nube con un único
+       contorno limpio, sin tener que calcular la unión a mano. */
+    .tejidos-logo .ty-fleece-line {
+      fill: none;
+      stroke: var(--ty-ink);
+      stroke-width: 7;
+    }
+
+    .tejidos-logo .ty-fleece {
+      fill: var(--ty-wool);
+    }
+
+    .tejidos-logo .ty-smile {
+      fill: none;
+      stroke: var(--ty-paper);
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+  </style>
+
+  <!-- ================= PATAS (van detrás del cuerpo) ================= -->
+  <g class="ty-ink">
+    <rect x="117" y="132" width="18" height="68" rx="8" />
+    <rect x="143" y="132" width="18" height="68" rx="8" />
+    <rect x="181" y="132" width="18" height="68" rx="8" />
+    <rect x="209" y="132" width="18" height="68" rx="8" />
+  </g>
+
+  <!-- Pezuñas -->
+  <g class="ty-hoof">
+    <path d="M 117 187 H 135 V 192 A 8 8 0 0 1 127 200 H 125 A 8 8 0 0 1 117 192 Z" />
+    <path d="M 143 187 H 161 V 192 A 8 8 0 0 1 153 200 H 151 A 8 8 0 0 1 143 192 Z" />
+    <path d="M 181 187 H 199 V 192 A 8 8 0 0 1 191 200 H 189 A 8 8 0 0 1 181 192 Z" />
+    <path d="M 209 187 H 227 V 192 A 8 8 0 0 1 219 200 H 217 A 8 8 0 0 1 209 192 Z" />
+  </g>
+
+  <!-- ================= CABEZA ================= -->
+
+  <!-- Oreja -->
+  <path
+    class="ty-ink"
+    d="
+      M 82 78
+      C 66 72 50 74 41 84
+      C 50 93 68 95 82 90
+      Z
+    "
+  />
+
+  <!-- Cráneo: elipse inclinada; el copete la tapa por arriba -->
+  <ellipse
+    class="ty-ink"
+    cx="88"
+    cy="108"
+    rx="30"
+    ry="42"
+    transform="rotate(35 88 108)"
+  />
+
+  <!-- Ojos -->
+  <circle class="ty-paper" cx="75" cy="101" r="4.5" />
+  <circle class="ty-paper" cx="96" cy="99" r="4.5" />
+
+  <!-- Sonrisa -->
+  <path
+    class="ty-smile"
+    d="M 60 116 C 59 130 70 137 78 130"
+  />
+
+  <!-- ================= VELLÓN ================= -->
+
+  <!-- Paso 1: contorno -->
+  <g class="ty-fleece-line">
+    <circle cx="84" cy="66" r="14" />
+    <circle cx="103" cy="58" r="17" />
+    <circle cx="122" cy="70" r="16" />
+    <circle cx="140" cy="122" r="30" />
+    <circle cx="152" cy="88" r="28" />
+    <circle cx="186" cy="76" r="32" />
+    <circle cx="212" cy="104" r="30" />
+    <circle cx="204" cy="142" r="27" />
+    <circle cx="172" cy="148" r="27" />
+    <circle cx="144" cy="146" r="25" />
+    <circle cx="176" cy="112" r="40" />
+  </g>
+
+  <!-- Paso 2: relleno (tapa los trazos internos) -->
+  <g class="ty-fleece">
+    <circle cx="84" cy="66" r="14" />
+    <circle cx="103" cy="58" r="17" />
+    <circle cx="122" cy="70" r="16" />
+    <circle cx="140" cy="122" r="30" />
+    <circle cx="152" cy="88" r="28" />
+    <circle cx="186" cy="76" r="32" />
+    <circle cx="212" cy="104" r="30" />
+    <circle cx="204" cy="142" r="27" />
+    <circle cx="172" cy="148" r="27" />
+    <circle cx="144" cy="146" r="25" />
+    <circle cx="176" cy="112" r="40" />
+  </g>
+</svg>

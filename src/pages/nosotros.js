@@ -1,4 +1,4 @@
-import { Users, Package, MessageCircle } from 'lucide'
+import { Leaf, HandHeart, Sparkles, MapPin } from 'lucide'
 import { renderHeader, bindHeaderEvents } from '../components/header.js'
 import { renderFooter } from '../components/footer.js'
 import { icon } from '../lib/icons.js'
@@ -6,19 +6,19 @@ import { siteConfig } from '../site.config.js'
 
 const FEATURES = [
   {
-    icon: Users,
-    title: 'Tienda familiar',
-    description: 'Atención cercana y de confianza, sin intermediarios.',
+    icon: Leaf,
+    title: 'Lana 100% de oveja',
+    description: 'Cada ruana se teje con lana 100% de oveja, sin mezclas ni fibras sintéticas.',
   },
   {
-    icon: Package,
-    title: 'Catálogo cuidado',
-    description: 'Cada producto publicado tiene stock y disponibilidad reales.',
+    icon: HandHeart,
+    title: 'Tejido en telar horizontal',
+    description: 'Cada pieza se teje en telar horizontal, hilo a hilo, con años de experiencia en el oficio.',
   },
   {
-    icon: MessageCircle,
-    title: 'Compra por WhatsApp',
-    description: 'Sin registros ni carritos: escríbenos y coordinamos directo.',
+    icon: Sparkles,
+    title: 'Fieltro seco artesanal',
+    description: 'Yolanda también trabaja el fieltro seco, con acabados de calidad profesional.',
   },
 ]
 
@@ -43,13 +43,35 @@ export function nosotrosPage({ mount }) {
         <div class="mx-auto max-w-2xl text-center">
           <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Nosotros</h1>
           <p class="mt-4 text-lg text-neutral-600 dark:text-neutral-300">
-            ${siteConfig.storeName} nació como una tienda familiar y sigue funcionando así: catálogo simple,
-            trato directo y compras que se cierran por WhatsApp.
+            ${siteConfig.storeName} es sinónimo de ruanas 100% de lana de oveja, tejidas en telar horizontal en
+            ${siteConfig.location.name}, con la tradición textil boyacense de siempre.
           </p>
         </div>
 
         <div class="mt-12 grid gap-6 sm:grid-cols-3">
           ${FEATURES.map(renderFeature).join('')}
+        </div>
+      </section>
+
+      <section class="border-t border-neutral-200 dark:border-neutral-800">
+        <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+          <div class="rounded-3xl border border-neutral-200 p-8 dark:border-neutral-800 sm:p-10">
+            <p class="flex items-center gap-1.5 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+              ${icon(MapPin, { class: 'h-4 w-4 shrink-0' })}
+              ${siteConfig.location.name}
+            </p>
+            <h2 class="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">Yolanda Rojas</h2>
+            <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+              Yolanda es quien teje y vende cada pieza de ${siteConfig.storeName}. Es mujer de El Espino, Boyacá,
+              y lleva años tejiendo ruanas de lana 100% de oveja en telar horizontal, perfeccionando el oficio
+              hilo a hilo.
+            </p>
+            <p class="mt-4 text-neutral-600 dark:text-neutral-300">
+              Además del telar, trabaja el fieltro seco, una técnica que domina hasta lograr acabados de calidad
+              profesional. Cada ruana que sale de sus manos lleva la tradición textil boyacense y el cuidado de un
+              trabajo hecho de principio a fin por una sola persona.
+            </p>
+          </div>
         </div>
       </section>
     </main>
