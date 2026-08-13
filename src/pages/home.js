@@ -13,16 +13,18 @@ export async function homePage({ mount }) {
 
     <main>
       <section class="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 sm:py-28">
-        <p class="mb-4 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+        <p class="mb-4 flex items-center justify-center gap-2 text-sm font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+          <span aria-hidden="true">🐑</span>
           ${siteConfig.storeName}
+          <span aria-hidden="true">🐑</span>
         </p>
 
         <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">
-          Productos con identidad
+          Ruanas tejidas con tradición
         </h1>
 
         <p class="mx-auto mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300">
-          Descubre nuestra selección de productos.
+          Ruanas y tejidos hechos a mano, con la calidez de la lana de siempre.
         </p>
 
         <a
@@ -30,7 +32,7 @@ export async function homePage({ mount }) {
           data-link
           class="mt-8 inline-block rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white hover:opacity-90 dark:bg-white dark:text-neutral-900"
         >
-          Ver productos
+          Ver nuestras ruanas
         </a>
       </section>
 

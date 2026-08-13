@@ -1,4 +1,4 @@
-import { MessageCircleOff } from 'lucide'
+import { MessageCircleOff, MapPin } from 'lucide'
 import whatsappSvg from 'simple-icons/icons/whatsapp.svg?raw'
 import instagramSvg from 'simple-icons/icons/instagram.svg?raw'
 import facebookSvg from 'simple-icons/icons/facebook.svg?raw'
@@ -64,6 +64,39 @@ function renderPlatformButton(platform) {
   `
 }
 
+function renderLocation() {
+  const { name, mapEmbedUrl } = siteConfig.location ?? {}
+  if (!mapEmbedUrl) return ''
+
+  return `
+    <div class="mt-14">
+      <div class="text-center">
+        <h2 class="text-xl font-semibold tracking-tight">Nuestro taller</h2>
+        ${
+          name
+            ? `<p class="mt-2 flex items-center justify-center gap-1.5 text-neutral-600 dark:text-neutral-300">
+                ${icon(MapPin, { class: 'h-4 w-4 shrink-0' })}
+                ${name}
+              </p>`
+            : ''
+        }
+      </div>
+
+      <div class="mt-6 overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-800">
+        <iframe
+          src="${mapEmbedUrl}"
+          class="aspect-[4/3] w-full"
+          style="border:0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Ubicación de ${siteConfig.storeName}${name ? ` en ${name}` : ''}"
+        ></iframe>
+      </div>
+    </div>
+  `
+}
+
 function renderEmptyState() {
   return `
     <div class="flex flex-col items-center rounded-2xl border border-dashed border-neutral-300 px-6 py-16 text-center dark:border-neutral-700">
@@ -94,6 +127,8 @@ export function contactoPage({ mount }) {
         <div class="mt-10 flex flex-col gap-3">
           ${hasAnySocial ? buttons : renderEmptyState()}
         </div>
+
+        ${renderLocation()}
       </section>
     </main>
 
