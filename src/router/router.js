@@ -59,7 +59,12 @@ async function render() {
 
   app.innerHTML = ''
   await match.route.view({ params: match.params, mount: app })
-  window.scrollTo(0, 0)
+
+  if (location.hash) {
+    document.getElementById(location.hash.slice(1))?.scrollIntoView()
+  } else {
+    window.scrollTo(0, 0)
+  }
 }
 
 // `path` is a full path already including the base (build it with `link()`).

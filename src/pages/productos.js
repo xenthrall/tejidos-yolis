@@ -1,32 +1,23 @@
-import { renderHeader } from '../components/header.js'
+import { PackageSearch, TriangleAlert } from 'lucide'
+import { renderHeader, bindHeaderEvents } from '../components/header.js'
 import { renderFooter } from '../components/footer.js'
 import { getPublishedProducts } from '../lib/products.js'
-import { getProductImageUrl } from '../lib/images.js'
-import { formatPrice } from '../lib/format.js'
-import { escapeHtml } from '../lib/dom.js'
-import { link } from '../router/router.js'
+import { icon } from '../lib/icons.js'
+import { renderProductCard, renderProductCardSkeleton } from '../components/product-card.js'
 
-function renderProductCard(product) {
-  const imageUrl = getProductImageUrl(product.image_path)
-  const disponible = product.stock > 0
-  const name = escapeHtml(product.name)
-  const slug = encodeURIComponent(product.slug)
+function renderMessage({ iconNode, title, tone = 'neutral' }) {
+  const toneClass =
+    tone === 'error'
+      ? 'border-red-200 dark:border-red-900/50'
+      : 'border-dashed border-neutral-300 dark:border-neutral-700'
 
   return `
-    <a href="${link(`/productos/${slug}`)}" data-link class="rounded-xl border p-6 hover:opacity-80">
-      <div class="mb-4 aspect-square overflow-hidden rounded-lg bg-gray-100">
-        ${
-          imageUrl
-            ? `<img src="${imageUrl}" alt="${name}" class="h-full w-full object-cover" loading="lazy" />`
-            : ''
-        }
+    <div class="flex flex-col items-center rounded-2xl border ${toneClass} px-6 py-16 text-center">
+      <div class="inline-flex rounded-full bg-neutral-100 p-3 dark:bg-neutral-800">
+        ${icon(iconNode, { class: 'h-6 w-6 text-neutral-400 dark:text-neutral-500' })}
       </div>
-      <h3 class="font-medium">${name}</h3>
-      <p class="mt-2">${formatPrice(product.price)}</p>
-      <p class="mt-1 text-sm ${disponible ? 'text-green-700' : 'text-gray-400'}">
-        ${disponible ? 'Disponible' : 'Agotado'}
-      </p>
-    </a>
+      <p class="mt-4 text-neutral-500 dark:text-neutral-400">${title}</p>
+    </div>
   `
 }
 
@@ -35,13 +26,11 @@ export async function productosPage({ mount }) {
     ${renderHeader()}
 
     <main>
-      <section class="mx-auto max-w-7xl px-6 py-16">
-        <div class="mb-8">
-          <h1 class="text-2xl font-semibold">Productos</h1>
-        </div>
+      <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <h1 class="mb-8 text-2xl font-semibold tracking-tight">Productos</h1>
 
-        <div id="catalogo">
-          <p>Cargando productos…</p>
+        <div id="catalogo" class="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
+          ${Array.from({ length: 8 }, renderProductCardSkeleton).join('')}
         </div>
       </section>
     </main>
@@ -49,23 +38,30 @@ export async function productosPage({ mount }) {
     ${renderFooter()}
   `
 
+  bindHeaderEvents(mount)
+
   const catalogo = mount.querySelector('#catalogo')
 
   try {
     const products = await getPublishedProducts()
 
     if (products.length === 0) {
-      catalogo.innerHTML = '<p>Todavía no hay productos publicados.</p>'
+      catalogo.className = ''
+      catalogo.innerHTML = renderMessage({
+        iconNode: PackageSearch,
+        title: 'Todavía no hay productos publicados.',
+      })
       return
     }
 
-    catalogo.innerHTML = `
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        ${products.map(renderProductCard).join('')}
-      </div>
-    `
+    catalogo.innerHTML = products.map(renderProductCard).join('')
   } catch (error) {
     console.error(error)
-    catalogo.innerHTML = '<p>No se pudo cargar el catálogo. Intenta de nuevo más tarde.</p>'
+    catalogo.className = ''
+    catalogo.innerHTML = renderMessage({
+      iconNode: TriangleAlert,
+      title: 'No se pudo cargar el catálogo. Intenta de nuevo más tarde.',
+      tone: 'error',
+    })
   }
 }

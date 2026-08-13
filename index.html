@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nativa</title>
     <script type="text/javascript">
+      // Applied before first paint to avoid a flash of the wrong theme.
+      // Kept in sync with src/lib/theme.js (same storage key and fallback).
+      ;(function () {
+        var stored = localStorage.getItem('nativa-theme')
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (dark) document.documentElement.classList.add('dark')
+      })()
+    </script>
+    <script type="text/javascript">
       // Single Page Apps for GitHub Pages: https://github.com/rafgraph/spa-github-pages
       // Restores the real path that 404.html re-encoded into a query string,
       // before the router reads location.pathname.
@@ -23,7 +32,7 @@
       })(window.location)
     </script>
   </head>
-  <body>
+  <body class="bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

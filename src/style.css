@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Class-based dark mode: toggled manually (see src/lib/theme.js) instead of
+   only following prefers-color-scheme, so the choice can be persisted. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+}
