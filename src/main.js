@@ -8,8 +8,10 @@ import { productoDetallePage } from './pages/producto-detalle.js'
 import { nosotrosPage } from './pages/nosotros.js'
 import { contactoPage } from './pages/contacto.js'
 import { adminLoginPage } from './pages/admin/login.js'
+import { adminDashboardPage } from './pages/admin/dashboard.js'
 import { adminProductosPage } from './pages/admin/productos.js'
 import { adminProductoFormPage } from './pages/admin/producto-form.js'
+import { adminConfiguracionPage } from './pages/admin/configuracion.js'
 import { notFoundPage } from './pages/not-found.js'
 
 document.title = siteConfig.storeName
@@ -21,9 +23,11 @@ registerRoutes([
   { path: '/nosotros', view: nosotrosPage },
   { path: '/contacto', view: contactoPage },
   { path: '/admin/login', view: adminLoginPage },
+  { path: '/admin', view: withAdminGuard(adminDashboardPage) },
   { path: '/admin/productos', view: withAdminGuard(adminProductosPage) },
   { path: '/admin/productos/nuevo', view: withAdminGuard(adminProductoFormPage) },
   { path: '/admin/productos/:id', view: withAdminGuard(adminProductoFormPage) },
+  { path: '/admin/configuracion', view: withAdminGuard(adminConfiguracionPage) },
   { path: '/404', view: notFoundPage },
 ])
 

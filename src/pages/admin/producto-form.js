@@ -1,5 +1,5 @@
 import { ArrowLeft, ImagePlus, LoaderCircle, CircleAlert, TriangleAlert, PackageX } from 'lucide'
-import { renderAdminHeader, attachAdminHeaderEvents } from '../../components/admin-header.js'
+import { renderAdminShell, attachAdminShellEvents } from '../../components/admin-sidebar.js'
 import {
   getCategories,
   getProductById,
@@ -261,25 +261,26 @@ function bindForm({ mount, contenido, isEdit, product }) {
 export async function adminProductoFormPage({ params, mount }) {
   const isEdit = Boolean(params.id)
 
-  mount.innerHTML = `
-    ${renderAdminHeader()}
+  mount.innerHTML = renderAdminShell({
+    active: 'productos',
+    content: `
+      <main class="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
+        <a href="${link('/admin/productos')}" data-link class="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">
+          ${icon(ArrowLeft, { class: 'h-4 w-4' })}
+          Volver
+        </a>
+        <h1 class="mt-4 text-2xl font-semibold tracking-tight">${isEdit ? 'Editar producto' : 'Nuevo producto'}</h1>
 
-    <main class="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-16">
-      <a href="${link('/admin/productos')}" data-link class="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">
-        ${icon(ArrowLeft, { class: 'h-4 w-4' })}
-        Volver
-      </a>
-      <h1 class="mt-4 text-2xl font-semibold tracking-tight">${isEdit ? 'Editar producto' : 'Nuevo producto'}</h1>
+        <div id="contenido" class="mt-6 animate-pulse space-y-4">
+          <div class="h-10 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
+          <div class="h-24 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
+          <div class="h-10 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
+        </div>
+      </main>
+    `,
+  })
 
-      <div id="contenido" class="mt-6 animate-pulse space-y-4">
-        <div class="h-10 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
-        <div class="h-24 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
-        <div class="h-10 rounded-lg bg-neutral-100 dark:bg-neutral-800"></div>
-      </div>
-    </main>
-  `
-
-  attachAdminHeaderEvents(mount, {
+  attachAdminShellEvents(mount, {
     onLogout: async () => {
       await signOut()
       navigate(link('/admin/login'))

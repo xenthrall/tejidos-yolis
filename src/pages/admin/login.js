@@ -7,7 +7,7 @@ import { renderThemeToggle, bindThemeToggle } from '../../lib/theme.js'
 export async function adminLoginPage({ mount }) {
   const admin = await getCurrentAdmin()
   if (admin) {
-    navigate(link('/admin/productos'))
+    navigate(link('/admin'))
     return
   }
 
@@ -97,7 +97,7 @@ export async function adminLoginPage({ mount }) {
 
     try {
       await signInWithPassword(email, password)
-      navigate(link('/admin/productos'))
+      navigate(link('/admin'))
     } catch (error) {
       errorText.textContent = error.message
       errorEl.classList.remove('hidden')

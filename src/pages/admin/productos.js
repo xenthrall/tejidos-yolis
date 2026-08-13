@@ -1,5 +1,5 @@
 import { Plus, Pencil, Trash2, Eye, EyeOff, PackageOpen, TriangleAlert } from 'lucide'
-import { renderAdminHeader, attachAdminHeaderEvents } from '../../components/admin-header.js'
+import { renderAdminShell, attachAdminShellEvents } from '../../components/admin-sidebar.js'
 import { getAllProducts, deleteProduct } from '../../lib/adminProducts.js'
 import { getProductImageUrl } from '../../lib/images.js'
 import { formatPrice } from '../../lib/format.js'
@@ -160,27 +160,28 @@ function renderErrorState() {
 }
 
 export async function adminProductosPage({ mount }) {
-  mount.innerHTML = `
-    ${renderAdminHeader()}
+  mount.innerHTML = renderAdminShell({
+    active: 'productos',
+    content: `
+      <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h1 class="text-2xl font-semibold tracking-tight">Panel de productos</h1>
+          <a
+            href="${link('/admin/productos/nuevo')}"
+            data-link
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:opacity-90 dark:bg-white dark:text-neutral-900"
+          >
+            ${icon(Plus, { class: 'h-4 w-4' })}
+            Nuevo producto
+          </a>
+        </div>
 
-    <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-16">
-      <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 class="text-2xl font-semibold tracking-tight">Panel de productos</h1>
-        <a
-          href="${link('/admin/productos/nuevo')}"
-          data-link
-          class="inline-flex items-center justify-center gap-2 rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:opacity-90 dark:bg-white dark:text-neutral-900"
-        >
-          ${icon(Plus, { class: 'h-4 w-4' })}
-          Nuevo producto
-        </a>
-      </div>
+        <div id="lista">${renderSkeleton()}</div>
+      </main>
+    `,
+  })
 
-      <div id="lista">${renderSkeleton()}</div>
-    </main>
-  `
-
-  attachAdminHeaderEvents(mount, {
+  attachAdminShellEvents(mount, {
     onLogout: async () => {
       await signOut()
       navigate(link('/admin/login'))
