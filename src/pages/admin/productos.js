@@ -7,6 +7,8 @@ import { escapeHtml } from '../../lib/dom.js'
 import { signOut } from '../../lib/auth.js'
 import { navigate, link } from '../../router/router.js'
 import { icon } from '../../lib/icons.js'
+import { confirmModal } from '../../lib/modal.js'
+import { showToast } from '../../lib/toast.js'
 
 function renderStatusBadge(product) {
   return `
@@ -31,7 +33,12 @@ function renderDesktopRow(product) {
   const category = product.category ? escapeHtml(product.category.name) : '—'
 
   return `
-    <tr class="border-b border-neutral-100 last:border-0 dark:border-neutral-800" data-id="${product.id}">
+    <tr
+      class="border-b border-neutral-100 last:border-0 dark:border-neutral-800"
+      data-id="${product.id}"
+      data-name="${name}"
+      data-image-path="${escapeHtml(product.image_path ?? '')}"
+    >
       <td class="py-3 pl-4">${renderThumb(product, name, 'h-12 w-12')}</td>
       <td class="py-3 pr-4 font-medium">${name}</td>
       <td class="py-3 pr-4 text-neutral-500 dark:text-neutral-400">${category}</td>
@@ -67,7 +74,12 @@ function renderMobileCard(product) {
   const category = product.category ? escapeHtml(product.category.name) : '—'
 
   return `
-    <div class="flex gap-3 rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800" data-id="${product.id}">
+    <div
+      class="flex gap-3 rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800"
+      data-id="${product.id}"
+      data-name="${name}"
+      data-image-path="${escapeHtml(product.image_path ?? '')}"
+    >
       ${renderThumb(product, name, 'h-16 w-16')}
       <div class="min-w-0 flex-1">
         <div class="flex items-start justify-between gap-2">
@@ -182,19 +194,26 @@ export async function adminProductosPage({ mount }) {
     if (!button) return
 
     const container = button.closest('[data-id]')
-    const id = container.dataset.id
+    const { id, name, imagePath } = container.dataset
 
-    if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return
+    const confirmed = await confirmModal({
+      title: `¿Eliminar "${name}"?`,
+      description: 'Esta acción no se puede deshacer.',
+      confirmLabel: 'Eliminar',
+      destructive: true,
+    })
+    if (!confirmed) return
 
     const buttons = lista.querySelectorAll(`[data-id="${id}"] [data-action="delete"]`)
     buttons.forEach((b) => (b.disabled = true))
 
     try {
-      await deleteProduct(id)
+      await deleteProduct(id, imagePath)
       lista.querySelectorAll(`[data-id="${id}"]`).forEach((el) => el.remove())
+      showToast('Producto eliminado')
     } catch (error) {
       console.error(error)
-      alert('No se pudo eliminar el producto.')
+      showToast('No se pudo eliminar el producto.', { type: 'error' })
       buttons.forEach((b) => (b.disabled = false))
     }
   })

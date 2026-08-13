@@ -14,6 +14,8 @@ import { slugify } from '../../lib/slug.js'
 import { signOut } from '../../lib/auth.js'
 import { navigate, link } from '../../router/router.js'
 import { icon } from '../../lib/icons.js'
+import { showToast } from '../../lib/toast.js'
+import { optimizeImage } from '../../lib/image-optimize.js'
 
 const INPUT_CLASS =
   'w-full rounded-lg border border-neutral-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-neutral-900 dark:border-neutral-700 dark:focus:border-white'
@@ -153,12 +155,35 @@ function bindForm({ mount, contenido, isEdit, product }) {
   const imagePreview = mount.querySelector('#image-preview')
   const imagePlaceholder = mount.querySelector('#image-placeholder')
 
+  const defaultPlaceholder = imagePlaceholder.innerHTML
+  let imageFileToUpload = null
+  let pendingOptimization = null
+
   imageInput.addEventListener('change', () => {
     const file = imageInput.files[0]
     if (!file) return
-    imagePreview.src = URL.createObjectURL(file)
-    imagePreview.classList.remove('hidden')
-    imagePlaceholder.classList.add('hidden')
+
+    imageFileToUpload = null
+    imagePreview.classList.add('hidden')
+    imagePlaceholder.classList.remove('hidden')
+    imagePlaceholder.innerHTML = `${icon(LoaderCircle, { class: 'h-6 w-6 animate-spin' })}<span class="text-xs font-normal">Optimizando…</span>`
+
+    pendingOptimization = optimizeImage(file)
+      .then((optimized) => {
+        imageFileToUpload = optimized
+        imagePreview.src = URL.createObjectURL(optimized)
+        imagePreview.classList.remove('hidden')
+        imagePlaceholder.classList.add('hidden')
+      })
+      .catch((error) => {
+        console.error(error)
+        showToast('No se pudo procesar la imagen.', { type: 'error' })
+        imageInput.value = ''
+        imagePlaceholder.innerHTML = defaultPlaceholder
+      })
+      .finally(() => {
+        pendingOptimization = null
+      })
   })
 
   form.addEventListener('submit', async (event) => {
@@ -168,10 +193,15 @@ function bindForm({ mount, contenido, isEdit, product }) {
 
     const formData = new FormData(form)
     const submitButton = form.querySelector('button[type="submit"]')
-    const imageFile = formData.get('image')
 
     submitButton.disabled = true
     submitButton.innerHTML = `${icon(LoaderCircle, { class: 'h-4 w-4 animate-spin' })} Guardando…`
+
+    if (pendingOptimization) {
+      await pendingOptimization
+    }
+
+    let uploadedImagePath = null
 
     try {
       const name = formData.get('name').trim()
@@ -185,9 +215,8 @@ function bindForm({ mount, contenido, isEdit, product }) {
         is_published: formData.get('is_published') === 'on',
       }
 
-      let uploadedImagePath = null
-      if (imageFile && imageFile.size > 0) {
-        uploadedImagePath = await uploadProductImage(imageFile)
+      if (imageFileToUpload) {
+        uploadedImagePath = await uploadProductImage(imageFileToUpload)
         values.image_path = uploadedImagePath
       }
 
@@ -197,13 +226,26 @@ function bindForm({ mount, contenido, isEdit, product }) {
         await createProduct(values)
       }
 
+      // Only remove the previous image once the new one is safely referenced
+      // by the product row, so a failed save never leaves the product without
+      // any image on disk.
       if (uploadedImagePath && product?.image_path) {
-        await deleteProductImage(product.image_path).catch(() => {})
+        await deleteProductImage(product.image_path).catch((error) => {
+          console.error('No se pudo eliminar la imagen anterior:', error)
+        })
       }
 
+      showToast(isEdit ? 'Producto actualizado' : 'Producto creado')
       navigate(link('/admin/productos'))
     } catch (error) {
       console.error(error)
+
+      // The row write failed (or never ran) after a new image was already
+      // uploaded — clean it up so it doesn't linger unreferenced in Storage.
+      if (uploadedImagePath) {
+        await deleteProductImage(uploadedImagePath).catch(() => {})
+      }
+
       errorText.textContent =
         error.code === '23505'
           ? 'Ya existe un producto con un nombre muy parecido. Usa un nombre distinto.'

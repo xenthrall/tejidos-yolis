@@ -44,9 +44,15 @@ export async function updateProduct(id, values) {
   return data
 }
 
-export async function deleteProduct(id) {
+export async function deleteProduct(id, imagePath) {
   const { error } = await supabase.from('products').delete().eq('id', id)
   if (error) throw error
+
+  if (imagePath) {
+    await deleteProductImage(imagePath).catch((error) => {
+      console.error('No se pudo eliminar la imagen del producto:', error)
+    })
+  }
 }
 
 export async function uploadProductImage(file) {
