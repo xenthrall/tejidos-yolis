@@ -75,7 +75,7 @@ function renderMobileCard(product) {
 
   return `
     <div
-      class="flex gap-3 rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800"
+      class="flex min-w-0 gap-3 rounded-2xl border border-neutral-200 p-3 dark:border-neutral-800"
       data-id="${product.id}"
       data-name="${name}"
       data-image-path="${escapeHtml(product.image_path ?? '')}"
@@ -85,7 +85,7 @@ function renderMobileCard(product) {
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
             <p class="truncate font-medium">${name}</p>
-            <p class="text-sm text-neutral-500 dark:text-neutral-400">${category}</p>
+            <p class="truncate text-sm text-neutral-500 dark:text-neutral-400">${category}</p>
           </div>
           <div class="flex shrink-0 gap-1">
             <a

@@ -12,4 +12,13 @@
   html.dark {
     color-scheme: dark;
   }
+
+  /* The admin off-canvas sidebar (position: fixed + translate-x-full) still
+     inflates document.documentElement.scrollWidth in Chrome/Safari even
+     though it's visually off-screen — a well-known fixed+transform quirk.
+     This clips that phantom width so mobile never gets a horizontal scroll. */
+  html,
+  body {
+    overflow-x: hidden;
+  }
 }
