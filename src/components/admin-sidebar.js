@@ -2,6 +2,7 @@ import {
   ShieldCheck,
   LayoutDashboard,
   Package,
+  Tag,
   Settings,
   Menu,
   X,
@@ -18,6 +19,7 @@ import { siteConfig } from '../site.config.js'
 const NAV_ITEMS = [
   { key: 'inicio', label: 'Inicio', path: '/admin', icon: LayoutDashboard },
   { key: 'productos', label: 'Productos', path: '/admin/productos', icon: Package },
+  { key: 'categorias', label: 'Categorías', path: '/admin/categorias', icon: Tag },
 ]
 
 // Rendered separately, pinned to the bottom of the sidebar.

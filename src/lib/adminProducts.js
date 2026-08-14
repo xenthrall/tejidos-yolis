@@ -5,12 +5,6 @@ const ADMIN_PRODUCT_COLUMNS =
 
 const PRODUCT_IMAGES_BUCKET = 'product-images'
 
-export async function getCategories() {
-  const { data, error } = await supabase.from('categories').select('id, name, slug').order('name')
-  if (error) throw error
-  return data
-}
-
 export async function getAllProducts() {
   const { data, error } = await supabase
     .from('products')

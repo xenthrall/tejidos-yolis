@@ -1,13 +1,13 @@
 import { ArrowLeft, ImagePlus, LoaderCircle, CircleAlert, TriangleAlert, PackageX } from 'lucide'
 import { renderAdminShell, attachAdminShellEvents } from '../../components/admin-sidebar.js'
 import {
-  getCategories,
   getProductById,
   createProduct,
   updateProduct,
   uploadProductImage,
   deleteProductImage,
 } from '../../lib/adminProducts.js'
+import { getCategories } from '../../lib/adminCategories.js'
 import { getProductImageUrl } from '../../lib/images.js'
 import { escapeHtml } from '../../lib/dom.js'
 import { slugify } from '../../lib/slug.js'

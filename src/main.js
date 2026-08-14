@@ -11,6 +11,7 @@ import { adminLoginPage } from './pages/admin/login.js'
 import { adminDashboardPage } from './pages/admin/dashboard.js'
 import { adminProductosPage } from './pages/admin/productos.js'
 import { adminProductoFormPage } from './pages/admin/producto-form.js'
+import { adminCategoriasPage } from './pages/admin/categorias.js'
 import { adminConfiguracionPage } from './pages/admin/configuracion.js'
 import { notFoundPage } from './pages/not-found.js'
 
@@ -27,6 +28,7 @@ registerRoutes([
   { path: '/admin/productos', view: withAdminGuard(adminProductosPage) },
   { path: '/admin/productos/nuevo', view: withAdminGuard(adminProductoFormPage) },
   { path: '/admin/productos/:id', view: withAdminGuard(adminProductoFormPage) },
+  { path: '/admin/categorias', view: withAdminGuard(adminCategoriasPage) },
   { path: '/admin/configuracion', view: withAdminGuard(adminConfiguracionPage) },
   { path: '/404', view: notFoundPage },
 ])
