@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Café del Tiempo'),
+    'name' => env('APP_NAME', 'Tejidos Yolis'),
 
     /*
     |--------------------------------------------------------------------------

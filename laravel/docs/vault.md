@@ -6,7 +6,7 @@ Bóveda de contraseñas, notas y códigos de recuperación, cifrada en el navega
 
 ## Cifrado
 
-Todo el cifrado y descifrado ocurre en el navegador (`resources/js/vault.js`):
+Todo el cifrado y descifrado ocurre en el navegador (`app-modules/vault/resources/js/vault.js`):
 
 - **Derivación de clave:** Argon2id (librería `hash-wasm`) a partir de una **contraseña maestra**, distinta de la contraseña de login. Parámetros por defecto: 19 456 KiB de memoria, 2 iteraciones y paralelismo 1 (recomendación de OWASP, ajustada para WASM).
 - **Cifrado:** AES-256-GCM con Web Crypto. Cada blob se guarda como `{ v, iv, ct }` (versión, IV de 12 bytes y texto cifrado con su tag GCM, en base64).
@@ -58,5 +58,5 @@ En el primer acceso, `mount()` crea el salt y los parámetros KDF del usuario si
 
 - **Migraciones en producción:** no se editan. Cualquier cambio de esquema va en una migración nueva.
 - **Sin recuperación:** si un usuario pierde su contraseña maestra, sus datos son irrecuperables. Es el costo esperado del modelo zero-knowledge; todavía no hay mecanismo de rescate.
-- **Respaldos:** el respaldo diario de la base de datos (ver [`docker-deploy.md`](docker-deploy.md#respaldos)) incluye la bóveda, pero solo como blobs cifrados. Restaurarlo no expone el contenido.
+- **Respaldos:** el respaldo diario de la base de datos incluye la bóveda, pero solo como blobs cifrados. Restaurarlo no expone el contenido.
 - **Fuera de alcance por ahora:** renombrar o borrar carpetas, adjuntos, etiquetas y restaurar versiones anteriores desde la UI.

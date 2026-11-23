@@ -17,15 +17,15 @@ it('greets the user by first name', function () {
         ->assertDontSeeText('María');
 });
 
-it('links to every module and its sections', function () {
+it('renders the dashboard without links to disabled modules', function () {
+    Livewire::withoutLazyLoading();
+
     $this->get(Dashboard::getUrl())
         ->assertSuccessful()
-        ->assertSee(route('filament.app.pages.vault-dashboard'))
-        ->assertSee(route('filament.app.pages.finance-dashboard'))
-        ->assertSee(route('filament.app.resources.movements.index'))
-        ->assertSee(route('filament.app.resources.accounts.index'))
-        ->assertSee(route('filament.app.resources.movement-templates.index'))
-        ->assertSee(route('filament.app.resources.financial-contexts.index'));
+        ->assertDontSee('Bóveda')
+        ->assertDontSee('Finanzas')
+        ->assertDontSee('/app/vault-dashboard')
+        ->assertDontSee('/app/finance-dashboard');
 });
 
 it('no longer shows the AI assistant preview', function () {

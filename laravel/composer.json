@@ -1,21 +1,12 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "cafe-del-tiempo/cafe-del-tiempo",
+    "name": "tejidos-yolis/catalogo",
     "type": "project",
-    "description": "A self-hosted personal platform for preserving and managing the information that matters most, built as independent modules — starting with a private digital vault.",
+    "description": "Catálogo de ruanas de Tejidos Yolis.",
     "keywords": [
-        "cafe-del-tiempo",
-        "personal-platform",
-        "digital-vault",
-        "personal-vault",
-        "secure-storage",
-        "password-manager",
-        "credential-manager",
-        "secrets",
-        "encrypted-storage",
-        "personal-finance",
-        "privacy",
-        "self-hosted",
+        "tejidos-yolis",
+        "catalogo",
+        "ruanas",
         "laravel"
     ],
     "license": "MIT",
@@ -94,7 +85,11 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "internachi/modular",
+                "tequia/finance",
+                "tequia/vault"
+            ]
         }
     },
     "config": {

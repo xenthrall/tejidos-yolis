@@ -18,7 +18,7 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => 'cdt-backup',
+        'name' => 'tejidos-yolis-backup',
 
         'source' => [
             'files' => [
@@ -296,7 +296,7 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => 'cdt-backup',
+            'name' => 'tejidos-yolis-backup',
             'disks' => ['r2_private'],
             'health_checks' => [
                 MaximumAgeInDays::class => 1,

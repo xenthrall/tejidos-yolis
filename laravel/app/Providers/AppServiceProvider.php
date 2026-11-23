@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Tequia\System\Console\Commands\CreateUser;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::anonymousComponentPath(resource_path('views/landing/components'), 'landing');
+        $this->loadViewsFrom(base_path('app-modules/app/resources/views'), 'app');
+        $this->loadViewsFrom(base_path('app-modules/system/resources/views'), 'system');
+
+        $this->commands([CreateUser::class]);
     }
 }

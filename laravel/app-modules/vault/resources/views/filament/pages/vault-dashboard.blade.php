@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    @vite(['resources/js/vault.js'])
+    @vite(['app-modules/vault/resources/js/vault.js'])
 
     @php
         $collectionButtonClass = 'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition';

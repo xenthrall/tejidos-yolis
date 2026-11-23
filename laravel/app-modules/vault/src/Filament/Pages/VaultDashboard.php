@@ -20,7 +20,7 @@ use Tequia\Vault\Models\VaultItemVersion;
 
 /**
  * Bóveda zero-knowledge: todo se cifra/descifra en el navegador (ver
- * resources/js/vault.js). Como la clave maestra nunca llega al
+ * app-modules/vault/resources/js/vault.js). Como la clave maestra nunca llega al
  * servidor, no hay forma de recuperarla: si el usuario la olvida, la única
  * salida es `resetVaultAction()`, que borra todo y genera una sal nueva.
  */

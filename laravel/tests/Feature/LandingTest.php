@@ -1,34 +1,27 @@
 <?php
 
-afterEach(function () {
-    unset($_SERVER['APP_INSTANCE'], $_ENV['APP_INSTANCE']);
+use Illuminate\Database\Migrations\Migrator;
+
+test('the public home belongs to Tejidos Yolis', function () {
+    $this->get('/')
+        ->assertOk()
+        ->assertSee('Tejidos Yolis')
+        ->assertDontSee('Café del Tiempo');
 });
 
-test('landing pages point their canonical url to the hosted instance', function (string $path) {
-    $this->get($path)
-        ->assertOk()
-        ->assertSee('<link rel="canonical" href="https://cafe.tequia.dev'.$path.'">', escape: false);
-})->with(['/', '/docs/instalacion']);
+test('legacy public pages and reference modules are unavailable', function (string $path) {
+    $this->get($path)->assertNotFound();
+})->with([
+    '/docs/instalacion',
+    '/sitemap.xml',
+    '/app/finance-dashboard',
+    '/app/accounts',
+    '/app/movements',
+    '/app/financial-contexts',
+    '/app/movement-templates',
+    '/app/vault-dashboard',
+]);
 
-test('the landing served from the official domain can be indexed', function () {
-    $this->get('https://cafe.tequia.dev/')
-        ->assertSee('<meta name="robots" content="index, follow, max-image-preview:large">', escape: false);
-});
-
-test('the landing served from any other domain is not indexed, even in hosted mode', function (string $mode) {
-    bootInstance($mode);
-
-    $this->get('https://cafe.example.com/')
-        ->assertSee('<meta name="robots" content="noindex, nofollow">', escape: false)
-        ->assertSee('<link rel="canonical" href="https://cafe.tequia.dev/">', escape: false);
-})->with(['self-hosted', 'hosted']);
-
-test('the sitemap lists the home and every documentation page', function () {
-    $this->get('/sitemap.xml')
-        ->assertOk()
-        ->assertHeader('Content-Type', 'application/xml')
-        ->assertSeeInOrder([
-            '<loc>https://cafe.tequia.dev/</loc>',
-            '<loc>https://cafe.tequia.dev/docs/instalacion</loc>',
-        ], escape: false);
+test('reference module migrations are not registered', function () {
+    expect(app(Migrator::class)->paths())->toBeEmpty();
 });

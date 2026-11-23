@@ -13,8 +13,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cafe-del-tiempo-app:latest
-    container_name: cafe-del-tiempo_app
+    image: tejidos-yolis-app:latest
+    container_name: tejidos-yolis_app
     restart: always
     env_file:
       - .env
@@ -27,11 +27,11 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - cafe-del-tiempo-network
+      - tejidos-yolis-network
 
   nginx:
     image: nginx:alpine
-    container_name: cafe-del-tiempo_nginx
+    container_name: tejidos-yolis_nginx
     restart: always
     ports:
       - "9000:80"
@@ -42,14 +42,14 @@ services:
     depends_on:
       - app
     networks:
-      - cafe-del-tiempo-network
+      - tejidos-yolis-network
 
   postgres:
     image: postgres:16-alpine
-    container_name: cafe-del-tiempo_postgres
+    container_name: tejidos-yolis_postgres
     restart: always
     environment:
-      POSTGRES_DB: ${DB_DATABASE:-cafe_del_tiempo}
+      POSTGRES_DB: ${DB_DATABASE:-tejidos_yolis}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
@@ -60,14 +60,14 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - cafe-del-tiempo-network
+      - tejidos-yolis-network
 
   queue:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cafe-del-tiempo-app:latest
-    container_name: cafe-del-tiempo_queue
+    image: tejidos-yolis-app:latest
+    container_name: tejidos-yolis_queue
     restart: always
     command: php artisan queue:work --tries=3 --timeout=90 --sleep=3 --max-time=3600
     env_file:
@@ -81,14 +81,14 @@ services:
       app:
         condition: service_started
     networks:
-      - cafe-del-tiempo-network
+      - tejidos-yolis-network
 
   scheduler:
     build:
       context: .
       dockerfile: Dockerfile
-    image: cafe-del-tiempo-app:latest
-    container_name: cafe-del-tiempo_scheduler
+    image: tejidos-yolis-app:latest
+    container_name: tejidos-yolis_scheduler
     restart: always
     init: true
     command: php artisan schedule:work
@@ -103,10 +103,10 @@ services:
       app:
         condition: service_started
     networks:
-      - cafe-del-tiempo-network
+      - tejidos-yolis-network
 
 networks:
-  cafe-del-tiempo-network:
+  tejidos-yolis-network:
     driver: bridge
 
 volumes:
