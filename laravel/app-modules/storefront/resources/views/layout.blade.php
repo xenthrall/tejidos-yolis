@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#244c45">
+    <title>@yield('title', 'Tejidos Yolis · Piezas hechas a mano')</title>
+    <meta name="description" content="@yield('description', 'Descubre ruanas y creaciones artesanales de Tejidos Yolis, desde El Espino, Boyacá. Conoce cada pieza y conversa directamente con su creadora.')">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('brand/logo.svg') }}">
+    <meta property="og:type" content="@yield('og-type', 'website')">
+    <meta property="og:title" content="@yield('title', 'Tejidos Yolis · Piezas hechas a mano')">
+    <meta property="og:description" content="@yield('description', 'Ruanas y creaciones artesanales, hechas con tiempo y dedicación en Boyacá.')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="@yield('og-image', asset('brand/logo.svg'))">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('head')
+</head>
+<body class="storefront">
+    <a class="sf-skip" href="#contenido">Saltar al contenido</a>
+    <div class="sf-announcement">Desde El Espino, Boyacá · Hecho a mano, para acompañarte</div>
+    <header class="sf-header">
+        <div class="sf-shell sf-header-inner">
+            <a class="sf-brand" href="{{ route('home') }}" aria-label="Tejidos Yolis, inicio">
+                <img src="{{ asset('brand/logo.svg') }}" alt="" width="58" height="48">
+                <span>Tejidos Yolis<small>Artesanía con historia</small></span>
+            </a>
+            <nav class="sf-nav" aria-label="Navegación principal">
+                <a href="{{ route('storefront.products.index') }}" @class(['is-current' => request()->routeIs('storefront.products.*')])>Catálogo</a>
+                <a href="{{ route('storefront.about') }}" @class(['is-current' => request()->routeIs('storefront.about')])>Nuestra historia</a>
+                <a href="{{ route('storefront.contact') }}" @class(['is-current' => request()->routeIs('storefront.contact')])>Contacto</a>
+            </nav>
+        </div>
+    </header>
+    <main id="contenido">@yield('content')</main>
+    <footer class="sf-footer">
+        <div class="sf-shell sf-footer-grid">
+            <div><a class="sf-footer-brand" href="{{ route('home') }}">Tejidos Yolis</a><p>El valor de una pieza está también<br>en las manos que la crean.</p></div>
+            <div><h2>Explora</h2><a href="{{ route('storefront.products.index') }}">Todas las piezas</a><a href="{{ route('storefront.about') }}">Nuestra historia</a><a href="{{ route('storefront.contact') }}">Hablemos</a></div>
+            <div><h2>Sigamos en contacto</h2><a href="https://wa.me/{{ config('catalog.whatsapp') }}" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="{{ config('catalog.instagram') }}" target="_blank" rel="noopener noreferrer">Instagram</a><p>{{ config('catalog.location') }}</p></div>
+        </div>
+        <div class="sf-shell sf-footer-bottom"><span>© {{ now()->year }} Tejidos Yolis</span><a href="{{ url('/app') }}">Gestión del catálogo</a></div>
+    </footer>
+</body>
+</html>

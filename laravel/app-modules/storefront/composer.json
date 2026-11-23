@@ -1,0 +1,27 @@
+{
+    "name": "tequia/storefront",
+    "description": "Catálogo público de Tejidos Yolis.",
+    "type": "library",
+    "version": "1.0",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "tequia/catalog": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tequia\\Storefront\\": "src/",
+            "Tequia\\Storefront\\Tests\\": "tests/",
+            "Tequia\\Storefront\\Database\\Factories\\": "database/factories/",
+            "Tequia\\Storefront\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tequia\\Storefront\\Providers\\StorefrontServiceProvider"
+            ]
+        }
+    }
+}

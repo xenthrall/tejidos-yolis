@@ -3,11 +3,9 @@
 @source "../../../../app-modules/app/src/**/*";
 @source "../../../../app-modules/app/resources/views/**/*";
 
-@source "../../../../app-modules/vault/src/**/*";
-@source "../../../../app-modules/vault/resources/views/**/*";
+@source "../../../../app-modules/catalog/src/**/*";
+@source "../../../../app-modules/catalog/resources/views/**/*";
 
-@source "../../../../app-modules/finance/src/**/*";
-@source "../../../../app-modules/finance/resources/views/**/*";
 
 /*
 /*

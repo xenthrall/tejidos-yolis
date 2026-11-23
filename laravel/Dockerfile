@@ -40,6 +40,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev \
     libonig-dev \
     libxml2-dev \
     zip \
@@ -52,7 +54,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Extensiones PHP requeridas por Laravel 13
-RUN docker-php-ext-configure intl
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-configure gd --with-jpeg --with-webp
 
 RUN docker-php-ext-install \
     pdo_pgsql \

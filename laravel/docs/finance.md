@@ -10,7 +10,7 @@ Este módulo **no es zero-knowledge**. Los datos se guardan en la base de datos 
 
 ## Modelo de datos
 
-Namespace `Tequia\Finance`. Migraciones en `app-modules/finance/database/migrations/`, modelos en `app-modules/finance/src/Models/`.
+Namespace `Tequia\Finance`. Migraciones en `app-modules/reference/finance/database/migrations/`, modelos en `app-modules/reference/finance/src/Models/`.
 
 | Tabla | Columnas propias | Relaciones |
 | --- | --- | --- |

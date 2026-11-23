@@ -19,7 +19,9 @@
         "league/flysystem-aws-s3-v3": "^3.35",
         "spatie/laravel-backup": "^10.3",
         "tequia/app": "*",
+        "tequia/catalog": "*",
         "tequia/finance": "*",
+        "tequia/storefront": "*",
         "tequia/system": "*",
         "tequia/vault": "*"
     },
@@ -86,7 +88,6 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "internachi/modular",
                 "tequia/finance",
                 "tequia/vault"
             ]
@@ -107,6 +108,13 @@
         {
             "type": "path",
             "url": "app-modules/*",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "app-modules/reference/*",
             "options": {
                 "symlink": true
             }

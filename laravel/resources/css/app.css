@@ -1,4 +1,7 @@
 @import 'tailwindcss';
+@import '../../app-modules/storefront/resources/css/storefront.css';
+
+@source '../../app-modules/storefront/resources/views/**/*.blade.php';
 
 @custom-variant dark (&:where(.dark, .dark *));
 

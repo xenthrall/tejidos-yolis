@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84634b76b1957cb38c703a793c45bf04",
+    "content-hash": "88a9b3e66ef0ed3c835bf2a713bf53ad",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -10341,11 +10341,48 @@
             }
         },
         {
+            "name": "tequia/catalog",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/catalog",
+                "reference": "39bfd05f4b775537ebf829351e18ee181dd0513a"
+            },
+            "require": {
+                "filament/filament": "^5.0",
+                "php": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tequia\\Catalog\\Providers\\CatalogServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tequia\\Catalog\\": "src/",
+                    "Tequia\\Catalog\\Tests\\": "tests/",
+                    "Tequia\\Catalog\\Database\\Factories\\": "database/factories/",
+                    "Tequia\\Catalog\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Gestión de productos artesanales, variantes, existencias y fotografías.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "tequia/finance",
             "version": "1.0",
             "dist": {
                 "type": "path",
-                "url": "app-modules/finance",
+                "url": "app-modules/reference/finance",
                 "reference": "24cd0955ea2b12d0097a563ea9738c77f50c0046"
             },
             "require": {
@@ -10370,6 +10407,43 @@
             "license": [
                 "proprietary"
             ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "tequia/storefront",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "app-modules/storefront",
+                "reference": "faa639b35d8f3d2fed27619871abd937637a374d"
+            },
+            "require": {
+                "php": "^8.3",
+                "tequia/catalog": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tequia\\Storefront\\Providers\\StorefrontServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tequia\\Storefront\\": "src/",
+                    "Tequia\\Storefront\\Tests\\": "tests/",
+                    "Tequia\\Storefront\\Database\\Factories\\": "database/factories/",
+                    "Tequia\\Storefront\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Catálogo público de Tejidos Yolis.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -10415,7 +10489,7 @@
             "version": "1.0",
             "dist": {
                 "type": "path",
-                "url": "app-modules/vault",
+                "url": "app-modules/reference/vault",
                 "reference": "6d571748477c2423211e59b384a01fcc5487af00"
             },
             "type": "library",
@@ -14389,5 +14463,5 @@
         "php": "^8.3"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

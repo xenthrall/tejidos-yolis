@@ -6,7 +6,7 @@ Bóveda de contraseñas, notas y códigos de recuperación, cifrada en el navega
 
 ## Cifrado
 
-Todo el cifrado y descifrado ocurre en el navegador (`app-modules/vault/resources/js/vault.js`):
+Todo el cifrado y descifrado ocurre en el navegador (`app-modules/reference/vault/resources/js/vault.js`):
 
 - **Derivación de clave:** Argon2id (librería `hash-wasm`) a partir de una **contraseña maestra**, distinta de la contraseña de login. Parámetros por defecto: 19 456 KiB de memoria, 2 iteraciones y paralelismo 1 (recomendación de OWASP, ajustada para WASM).
 - **Cifrado:** AES-256-GCM con Web Crypto. Cada blob se guarda como `{ v, iv, ct }` (versión, IV de 12 bytes y texto cifrado con su tag GCM, en base64).
@@ -16,7 +16,7 @@ Por eso los ítems no usan el CRUD estándar de Filament: `VaultDashboard` recib
 
 ## Modelo de datos
 
-Namespace `Tequia\Vault`. Migraciones en `app-modules/vault/database/migrations/`, modelos en `app-modules/vault/src/Models/`.
+Namespace `Tequia\Vault`. Migraciones en `app-modules/reference/vault/database/migrations/`, modelos en `app-modules/reference/vault/src/Models/`.
 
 | Tabla | Columnas propias | Notas |
 | --- | --- | --- |

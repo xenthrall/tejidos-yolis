@@ -3,6 +3,7 @@
 namespace Tequia\App\Filament\Widgets;
 
 use Filament\Widgets\Widget;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Accesos a las secciones disponibles del panel.
@@ -24,6 +25,22 @@ class AppsGridWidget extends Widget
      */
     public function getApps(): array
     {
-        return [];
+        if (! auth()->user()?->is_admin || ! Route::has('filament.app.resources.productos.index')) {
+            return [];
+        }
+
+        return [
+            [
+                'label' => 'Catálogo',
+                'description' => 'Productos, categorías, fotografías, variantes y existencias.',
+                'icon' => 'heroicon-o-shopping-bag',
+                'url' => route('filament.app.resources.productos.index'),
+                'accent' => 'emerald',
+                'shortcuts' => [
+                    ['label' => 'Productos', 'icon' => 'heroicon-o-shopping-bag', 'url' => route('filament.app.resources.productos.index')],
+                    ['label' => 'Categorías', 'icon' => 'heroicon-o-tag', 'url' => route('filament.app.resources.categorias.index')],
+                ],
+            ],
+        ];
     }
 }

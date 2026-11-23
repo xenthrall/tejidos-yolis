@@ -1,5 +1,3 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-Route::view('/', 'home')->name('home');
+// Las rutas públicas pertenecen al módulo Storefront.
