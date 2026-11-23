@@ -5,6 +5,7 @@
         @else
             <div class="sf-image-placeholder"><img src="{{ asset('brand/logo.svg') }}" alt="" width="100" height="80"><span>Tejidos Yolis</span></div>
         @endif
+        <span class="sf-card-view">Ver pieza @include('storefront::partials.icon', ['icon' => 'plus'])</span>
         @if (! $product->isAvailable())<span class="sf-badge sf-badge-muted">{{ $product->availabilityLabel() }}</span>
         @elseif ($product->is_unique)<span class="sf-badge">Pieza única</span>@endif
     </a>

@@ -7,7 +7,7 @@
         <h1>Hecho a mano.<br><em>Hecho para ti.</em></h1>
         <p>Piezas que abrigan y cuentan historias. Descubre las creaciones de Tejidos Yolis y encuentra esa que se siente tuya.</p>
         <div class="sf-hero-actions"><a class="sf-button" href="{{ route('storefront.products.index') }}">Explorar el catálogo</a><a class="sf-text-link" href="{{ route('storefront.about') }}">Conoce nuestra historia</a></div>
-        <div class="sf-hero-note"><span class="sf-thread-mark" aria-hidden="true">✳</span> Cada pieza tiene su propio carácter.</div>
+        <div class="sf-hero-note"><span class="sf-thread-mark">@include('storefront::partials.icon', ['icon' => 'sparkles'])</span> Cada pieza tiene su propio carácter.</div>
     </div>
     <div class="sf-hero-art">
         @if ($products->first()?->cover())
@@ -20,7 +20,7 @@
         <span class="sf-hero-seal">Con alma<br>artesanal</span>
     </div>
 </section>
-<div class="sf-values"><div class="sf-shell"><span>Hecho a mano</span><span>Detalles que hacen la diferencia</span><span>Contacto directo con su creadora</span></div></div>
+<div class="sf-values"><div class="sf-shell"><span>@include('storefront::partials.icon', ['icon' => 'sparkles'])Hecho a mano</span><span>@include('storefront::partials.icon', ['icon' => 'photo'])Detalles que hacen la diferencia</span><span>@include('storefront::partials.icon', ['icon' => 'chat'])Contacto con su creadora</span></div></div>
 <section class="sf-shell sf-section">
     <div class="sf-section-heading"><div><span class="sf-eyebrow">Elige algo especial</span><h2>Nuestras creaciones</h2></div><a class="sf-text-link" href="{{ route('storefront.products.index') }}">Ver todo el catálogo</a></div>
     @if ($categories->contains(fn ($category) => $category->products_count > 0))

@@ -8,16 +8,7 @@
 <div class="sf-shell sf-breadcrumbs"><a href="{{ route('home') }}">Inicio</a><span>/</span><a href="{{ route('storefront.products.index') }}">Catálogo</a><span>/</span><span>{{ $product->name }}</span></div>
 <section class="sf-shell sf-product-detail" data-product-detail>
     <script type="application/json" data-product-config>@json($productConfig)</script>
-    <div class="sf-gallery">
-        <button class="sf-main-photo" type="button" data-zoom-open aria-label="Ampliar fotografía de {{ $product->name }}">
-            @if ($product->cover())<img data-main-photo src="{{ $product->cover()->url() }}" alt="{{ $product->cover()->alt ?: $product->name }}" width="1000" height="1250" fetchpriority="high">@endif
-            <span class="sf-zoom-label">Ampliar fotografía</span>
-        </button>
-        <div class="sf-thumbnails" data-thumbnails aria-label="Fotografías del producto">
-            @foreach ($product->images as $image)<button type="button" data-image-index="{{ $loop->index }}" aria-label="Ver foto {{ $loop->iteration }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}"><img src="{{ $image->url(true) }}" alt="{{ $image->alt ?: $product->name }}" width="100" height="125" loading="lazy"></button>@endforeach
-        </div>
-        <dialog class="sf-lightbox" data-lightbox aria-label="Fotografía ampliada"><button type="button" data-zoom-close class="sf-lightbox-close" aria-label="Cerrar fotografía">Cerrar ×</button><img data-zoom-photo src="{{ $product->cover()?->url() }}" alt="{{ $product->cover()?->alt ?: $product->name }}"></dialog>
-    </div>
+    @include('storefront::partials.product-gallery', ['product' => $product])
     <div class="sf-product-info">
         <span class="sf-eyebrow">{{ $product->category?->name ?? 'Creación artesanal' }}</span>
         <h1>{{ $product->name }}</h1>
@@ -29,13 +20,13 @@
         @endif
         <dl class="sf-variant-attributes" data-variant-attributes>@foreach (($initialVariant?->attributes ?? []) as $name => $value)<div><dt>{{ $name }}</dt><dd>{{ $value }}</dd></div>@endforeach</dl>
         <p class="sf-stock-note" data-stock-note aria-live="polite">{{ $product->isAvailable() ? ($product->is_unique ? 'Solo hay una pieza como esta.' : 'Consulta con Yolis la cantidad que necesitas.') : 'Esta pieza ya no está disponible. Puedes consultar por otras creaciones.' }}</p>
-        <a class="sf-button sf-whatsapp-button" href="{{ $whatsapp }}" data-whatsapp @if (! $product->isAvailable()) hidden @endif target="_blank" rel="noopener noreferrer">Me interesa · Consultar por WhatsApp</a>
+        <a class="sf-button sf-whatsapp-button" href="{{ $whatsapp }}" data-whatsapp @if (! $product->isAvailable()) hidden @endif target="_blank" rel="noopener noreferrer">@include('storefront::partials.icon', ['icon' => 'chat'])<span>Consultar esta pieza</span></a>
         <a class="sf-button sf-button-outline" href="{{ route('storefront.products.index', ['disponibilidad' => 'disponibles']) }}" data-other-products @if ($product->isAvailable()) hidden @endif>Explorar piezas disponibles</a>
-        <p class="sf-purchase-note">Conversa directamente con Yolis para confirmar los detalles de la pieza y coordinar tu pedido.</p>
+        <p class="sf-purchase-note">Conversa por WhatsApp directamente con Yolis para confirmar los detalles de la pieza y coordinar tu pedido.</p>
         @if ($product->characteristics)
             <section class="sf-characteristics"><h2>Los detalles importan</h2><dl>@foreach ($product->characteristics as $name => $value)<div><dt>{{ $name }}</dt><dd>{{ $value }}</dd></div>@endforeach</dl></section>
         @endif
-        <p class="sf-reference">Referencia: <span data-sku>{{ $initialVariant?->sku }}</span></p>
+        <p class="sf-reference">Referencia de esta pieza: <span data-sku>{{ $initialVariant?->sku }}</span></p>
     </div>
 </section>
 @if ($related->isNotEmpty())<section class="sf-shell sf-section"><div class="sf-section-heading"><div><span class="sf-eyebrow">Sigue explorando</span><h2>Otras piezas con historia</h2></div></div><div class="sf-product-grid">@foreach ($related as $item)@include('storefront::partials.product-card', ['product' => $item])@endforeach</div></section>@endif
