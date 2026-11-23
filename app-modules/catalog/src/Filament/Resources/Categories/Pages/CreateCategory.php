@@ -2,15 +2,13 @@
 
 namespace Tequia\Catalog\Filament\Resources\Categories\Pages;
 
-use Filament\Resources\Pages\CreateRecord;
-use Tequia\Catalog\Filament\Resources\Categories\CategoryResource;
-
-class CreateCategory extends CreateRecord
+class CreateCategory extends CategoryEditor
 {
-    protected static string $resource = CategoryResource::class;
+    protected static ?string $title = 'Nueva categoría';
 
-    protected function getRedirectUrl(): string
+    public function mount(): void
     {
-        return CategoryResource::getUrl('index');
+        $this->authorizeEditor();
+        $this->initializeEditor();
     }
 }

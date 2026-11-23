@@ -2,15 +2,17 @@
 
 namespace Tequia\Catalog\Filament\Resources\Categories\Pages;
 
-use Filament\Resources\Pages\EditRecord;
-use Tequia\Catalog\Filament\Resources\Categories\CategoryResource;
+use Tequia\Catalog\Models\Category;
 
-class EditCategory extends EditRecord
+class EditCategory extends CategoryEditor
 {
-    protected static string $resource = CategoryResource::class;
+    protected static ?string $title = 'Editar categoría';
 
-    protected function getRedirectUrl(): string
+    public function mount(int|string $record): void
     {
-        return CategoryResource::getUrl('index');
+        $category = Category::findOrFail($record);
+        $this->categoryId = $category->id;
+        $this->authorizeEditor();
+        $this->initializeEditor($category);
     }
 }
