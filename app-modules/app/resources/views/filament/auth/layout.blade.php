@@ -11,9 +11,9 @@
     $renderHookScopes = $livewire?->getRenderHookScopes();
 
     $highlights = [
-        ['title' => 'Bóveda zero-knowledge', 'description' => 'Tus secretos se cifran en tu navegador antes de guardarse.'],
-        ['title' => 'Finanzas en orden', 'description' => 'Cuentas, movimientos y reportes en Excel y PDF.'],
-        ['title' => 'Código abierto', 'description' => 'Licencia MIT. Úsala aquí o en tu propio servidor.'],
+        ['title' => 'Piezas con identidad', 'description' => 'Dale a cada producto el espacio y los detalles que merece.'],
+        ['title' => 'Un catálogo que inspira', 'description' => 'Organiza tus colecciones y muestra cada textura con fotografías.'],
+        ['title' => 'Tu taller, donde estés', 'description' => 'Gestiona tus creaciones desde el celular o el computador.'],
     ];
 @endphp
 
@@ -28,8 +28,8 @@
             <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.06)_1px,transparent_0)] bg-size-[22px_22px]"></div>
 
             <a href="{{ url('/') }}" class="relative flex items-center gap-3">
-                <img src="{{ asset('images/icon-dark.png') }}" alt="" class="h-9 w-9">
-                <span class="text-sm font-semibold tracking-tight">Café del Tiempo</span>
+                <img src="{{ asset('brand/logo.svg') }}" alt="" class="h-9 w-9">
+                <span class="text-sm font-semibold tracking-tight">Tejidos Yolis</span>
             </a>
 
             <div class="relative flex max-w-md flex-col gap-8">
@@ -54,7 +54,7 @@
             </div>
 
             <p class="relative max-w-md text-xs italic leading-relaxed text-stone-500">
-                "Un rincón de calma para organizar lo esencial, cifrar lo vulnerable y asegurar que lo que amamos permanezca a salvo."
+                "En cada puntada, una historia. En cada pieza, el cariño de nuestras manos."
             </p>
         </aside>
 
@@ -62,14 +62,13 @@
         <div class="relative flex flex-col bg-[#faf8f5] dark:bg-[#0e0c0a]">
             <div class="flex items-center justify-between px-6 py-5 sm:px-10">
                 <a href="{{ url('/') }}" class="flex items-center gap-2.5 lg:invisible">
-                    <img src="{{ asset('images/icon-light.png') }}" alt="" class="h-8 w-8 dark:hidden">
-                    <img src="{{ asset('images/icon-dark.png') }}" alt="" class="hidden h-8 w-8 dark:block">
-                    <span class="text-sm font-semibold tracking-tight text-stone-900 dark:text-stone-100">Café del Tiempo</span>
+                    <img src="{{ asset('brand/logo.svg') }}" alt="" class="h-8 w-8">
+                    <span class="text-sm font-semibold tracking-tight text-stone-900 dark:text-stone-100">Tejidos Yolis</span>
                 </a>
 
                 <a href="{{ url('/') }}" class="inline-flex items-center gap-1.5 text-sm text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6-6-6 6-6"/></svg>
-                    Volver al inicio
+                    Ver el catálogo
                 </a>
             </div>
 
@@ -80,7 +79,7 @@
             </main>
 
             <p class="px-6 pb-6 text-center text-xs text-stone-400 dark:text-stone-500 sm:px-10">
-                Tu bóveda se abre con una contraseña maestra aparte, que nunca sale de tu navegador.
+                Hecho con cariño. Gestionado a tu ritmo.
             </p>
 
             {{ FilamentView::renderHook(PanelsRenderHook::FOOTER, scopes: $renderHookScopes) }}

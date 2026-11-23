@@ -23,8 +23,8 @@ class Register extends BaseRegister
     {
         return [
             ...parent::getLayoutData(),
-            'asideHeading' => 'Protege hoy lo que trasciende en el tiempo.',
-            'asideDescription' => 'Crea tu cuenta gratis y empieza con una bóveda cifrada en tu navegador y tus finanzas en orden.',
+            'asideHeading' => 'Lo hecho a mano nos conecta.',
+            'asideDescription' => 'Descubre el universo de Tejidos Yolis: piezas con identidad, texturas que abrigan e historias tejidas con cariño.',
         ];
     }
 }

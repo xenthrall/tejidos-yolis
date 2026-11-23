@@ -64,8 +64,10 @@ return [
             'bucket' => env('R2_PRIVATE_BUCKET'),
             'endpoint' => env('R2_PRIVATE_ENDPOINT'),
             'use_path_style_endpoint' => true,
-            'throw' => false,
-            'report' => false,
+            'throw' => true,
+            'report' => true,
+            'request_checksum_calculation' => 'when_required',
+            'response_checksum_validation' => 'when_required',
         ],
 
         'r2_public' => [

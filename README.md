@@ -41,3 +41,7 @@ La primera fotografía de la galería es la portada. Las imágenes pueden ordena
 El catálogo público está en `/productos`, la gestión de productos en `/app/productos` y las categorías en `/app/categorias`. Solo se muestran públicamente productos publicados con presentaciones activas y categoría visible. Los productos archivados y borradores quedan fuera de la tienda.
 
 Carrito, pagos, pedidos y registro público de clientes quedan para una siguiente etapa.
+
+## Producción
+
+La guía de [despliegue con Docker, Cloudflare Tunnel y respaldos privados en R2](docs/produccion-docker.md) explica la configuración del servidor, los volúmenes persistentes y la recuperación de datos. Docker publica únicamente `127.0.0.1:18473`. La guía describe cómo crear el enlace de almacenamiento para los contenedores.

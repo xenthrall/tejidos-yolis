@@ -13,6 +13,8 @@ use Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes;
 
 return [
 
+    'enabled' => env('BACKUP_ENABLED', false),
+
     'backup' => [
         /*
          * The name of this application. You can use this name to monitor
@@ -26,8 +28,8 @@ return [
                  * The list of directories and files that will be included in the backup.
                  */
                 'include' => [
-                    base_path(),
-                    // storage_path(),  // Include if you use zero downtime deployments and don't follow symlinks
+                    storage_path('app/public'),
+                    storage_path('app/private'),
                 ],
 
                 /*
@@ -36,9 +38,9 @@ return [
                  * Directories used by the backup process will automatically be excluded.
                  */
                 'exclude' => [
-                    base_path('vendor'),
-                    base_path('node_modules'),
-                    storage_path('framework'),
+                    storage_path('app/private/livewire-tmp'),
+                    storage_path('app/public/livewire-tmp'),
+                    storage_path('app/backup-temp'),
                 ],
 
                 /*
@@ -56,7 +58,7 @@ return [
                  * Set to `null` to include complete absolute path
                  * Example: base_path()
                  */
-                'relative_path' => null,
+                'relative_path' => base_path(),
             ],
 
             /*
@@ -198,18 +200,18 @@ return [
          * After creating the zip, verify it can be opened and contains files.
          * Recommended for critical backups but adds a small overhead.
          */
-        'verify_backup' => false,
+        'verify_backup' => true,
 
         /*
          * The number of attempts, in case the backup command encounters an exception
          */
-        'tries' => 1,
+        'tries' => 3,
 
         /*
          * The number of seconds to wait before attempting a new backup if the previous try failed
          * Set to `0` for none
          */
-        'retry_delay' => 0,
+        'retry_delay' => 10,
     ],
 
     /*
@@ -221,12 +223,12 @@ return [
      */
     'notifications' => [
         'notifications' => [
-            BackupHasFailedNotification::class => ['mail'],
-            UnhealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupHasFailedNotification::class => ['mail'],
-            BackupWasSuccessfulNotification::class => ['mail'],
-            HealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupWasSuccessfulNotification::class => ['mail'],
+            BackupHasFailedNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
+            UnhealthyBackupWasFoundNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
+            CleanupHasFailedNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
+            BackupWasSuccessfulNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
+            HealthyBackupWasFoundNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
+            CleanupWasSuccessfulNotification::class => env('BACKUP_NOTIFICATION_EMAIL') ? ['mail'] : [],
         ],
 
         /*
@@ -236,11 +238,11 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            'to' => env('BACKUP_NOTIFICATION_EMAIL') ?: [],
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name' => env('MAIL_FROM_NAME', 'Tejidos Yolis'),
             ],
         ],
 
@@ -299,8 +301,8 @@ return [
             'name' => 'tejidos-yolis-backup',
             'disks' => ['r2_private'],
             'health_checks' => [
-                MaximumAgeInDays::class => 1,
-                MaximumStorageInMegabytes::class => 5000,
+                MaximumAgeInDays::class => 2,
+                MaximumStorageInMegabytes::class => (int) env('BACKUP_WARNING_SIZE_MB', 10000),
             ],
         ],
 
@@ -309,8 +311,8 @@ return [
             'name' => 'name of the second app',
             'disks' => ['local', 's3'],
             'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 2,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => (int) env('BACKUP_WARNING_SIZE_MB', 10000),
             ],
         ],
         */
@@ -339,7 +341,7 @@ return [
              * of that day will be kept. Older backups within the same day will be removed.
              * If you create backups only once a day, no backups will be removed yet.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => 30,
 
             /*
              * After the "keep_daily_backups_for_days" period is over, the most recent backup
@@ -352,7 +354,7 @@ return [
              * After the "keep_weekly_backups_for_weeks" period is over, the most recent backup
              * of that month will be kept. Older backups within the same month will be removed.
              */
-            'keep_monthly_backups_for_months' => 4,
+            'keep_monthly_backups_for_months' => 6,
 
             /*
              * After the "keep_monthly_backups_for_months" period is over, the most recent backup
@@ -365,19 +367,19 @@ return [
              * this amount of megabytes has been reached.
              * Set null for unlimited size.
              */
-            'delete_oldest_backups_when_using_more_megabytes_than' => 5000,
+            'delete_oldest_backups_when_using_more_megabytes_than' => null,
         ],
 
         /*
          * The number of attempts, in case the cleanup command encounters an exception
          */
-        'tries' => 1,
+        'tries' => 3,
 
         /*
          * The number of seconds to wait before attempting a new cleanup if the previous try failed
          * Set to `0` for none
          */
-        'retry_delay' => 0,
+        'retry_delay' => 10,
     ],
 
 ];

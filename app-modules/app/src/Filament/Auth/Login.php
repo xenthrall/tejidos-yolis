@@ -24,8 +24,8 @@ class Login extends BaseLogin
     {
         return [
             ...parent::getLayoutData(),
-            'asideHeading' => 'Tu rincón de calma te estaba esperando.',
-            'asideDescription' => 'Entra para abrir tu bóveda y revisar tus finanzas. Todo sigue donde lo dejaste.',
+            'asideHeading' => 'Cada creación tiene una historia. Compártela.',
+            'asideDescription' => 'Entra al taller de Tejidos Yolis para organizar tus productos, cuidar sus detalles y dar vida a tu catálogo.',
         ];
     }
 }

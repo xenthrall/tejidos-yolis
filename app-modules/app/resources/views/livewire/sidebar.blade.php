@@ -100,10 +100,10 @@
                                     class="flex items-center justify-center w-full"
                                 >
                                     {{-- Logo Completo - Tema Claro --}}
-                                    <img src="{{ asset('images/logo-light.png') }}" alt="Café del Tiempo" class="h-16 w-auto max-w-full object-contain mx-auto dark:hidden">
+                                    <img src="{{ asset('brand/logo.svg') }}" alt="Tejidos Yolis" class="h-16 w-auto max-w-full object-contain mx-auto dark:hidden">
 
                                     {{-- Logo Completo - Tema Oscuro --}}
-                                    <img src="{{ asset('images/logo-dark.png') }}" alt="Café del Tiempo" class="hidden h-16 w-auto max-w-full object-contain mx-auto dark:block">
+                                    <img src="{{ asset('brand/logo.svg') }}" alt="Tejidos Yolis" class="hidden h-16 w-auto max-w-full object-contain mx-auto dark:block">
                                 </div>
 
                                 {{-- 2. ICONO REDUCIDO 1:1 (Se muestra solo cuando el menú está COLAPSADO) --}}

@@ -16,7 +16,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Tequia\App\Filament\Auth\Login;
-use Tequia\App\Filament\Auth\Register;
 use Tequia\App\Livewire\Sidebar;
 use Tequia\App\Livewire\Topbar;
 
@@ -30,13 +29,13 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->profile(isSimple: false)
             ->login(Login::class)
-            ->registration(config('app.instance') === 'hosted' ? Register::class : null)
             ->viteTheme('resources/css/filament/app/theme.css')
             ->sidebarCollapsibleOnDesktop()
             ->sidebarLivewireComponent(Sidebar::class)
             ->topbarLivewireComponent(Topbar::class)
-            ->brandLogo(asset('images/logo-light.png'))
-            ->darkModeBrandLogo(asset('images/logo-dark.png'))
+            ->brandName('Tejidos Yolis')
+            ->brandLogo(asset('brand/logo.svg'))
+            ->darkModeBrandLogo(asset('brand/logo.svg'))
             ->brandLogoHeight('5rem') // '3rem', '4rem' o '64px'
             ->colors([
                 'danger' => Color::Rose,
