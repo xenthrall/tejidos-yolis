@@ -34,7 +34,7 @@ Finance y Vault permanecen como dependencias de referencia con sus providers des
 
 El producto contiene información comercial, publicación y características. Cada producto tiene al menos una variante con referencia, precio COP y existencias. Una pieza única admite una sola presentación y como máximo una unidad; una pieza sin existencias puede seguir publicada como Vendida. Los productos con variantes admiten distintas presentaciones, opciones, precios y cantidades.
 
-La primera fotografía de la galería es la portada. Las imágenes pueden ordenarse, describirse y asociarse a variantes ya guardadas. Las fotos JPEG, PNG y WebP se guardan con nombres generados; con GD y soporte WebP se generan versiones optimizadas y miniaturas. Sin GD se conserva la imagen subida y se utiliza como respaldo. Docker incluye GD con soporte JPEG y WebP.
+La primera fotografía de la galería es la portada. Las imágenes pueden ordenarse, describirse y asociarse a variantes ya guardadas. Todas las fotos nuevas JPEG, PNG y WebP se convierten a WebP optimizado, con nombres generados y miniaturas también en WebP. Se conserva la proporción, la transparencia y la orientación de las fotografías. GD con soporte WebP es obligatorio: si falta o la conversión falla, se muestra un error sin guardar el original. Docker incluye GD con soporte JPEG y WebP.
 
 `CATALOG_DISK` selecciona el disco (por defecto `public`; también puede usarse el disco existente `r2_public`). Con almacenamiento local, ejecuta `php artisan storage:link`. `STORE_WHATSAPP` configura el contacto del catálogo.
 

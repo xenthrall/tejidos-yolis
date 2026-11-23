@@ -14,21 +14,17 @@ class ImageProcessor
         $disk = config('catalog.disk');
         $contents = $file->get();
         $optimized = $this->resize($contents, config('catalog.image_width'));
-        $path = 'catalog/products/'.Str::ulid().'.'.($optimized !== null ? 'webp' : $file->guessExtension());
-        if (! Storage::disk($disk)->put($path, $optimized ?? $contents)) {
+        $path = 'catalog/products/'.Str::ulid().'.webp';
+        if (! Storage::disk($disk)->put($path, $optimized)) {
             throw ValidationException::withMessages(['gallery' => 'No se pudo guardar la fotografía. Revisa el almacenamiento.']);
         }
 
         return $path;
     }
 
-    public function thumbnail(string $path, string $disk): ?string
+    public function thumbnail(string $path, string $disk): string
     {
         $thumbnail = $this->resize(Storage::disk($disk)->get($path), config('catalog.thumbnail_width'));
-
-        if ($thumbnail === null) {
-            return null;
-        }
 
         $target = 'catalog/thumbnails/'.Str::ulid().'.webp';
         if (! Storage::disk($disk)->put($target, $thumbnail)) {
@@ -38,16 +34,16 @@ class ImageProcessor
         return $target;
     }
 
-    private function resize(string $contents, int $maxWidth): ?string
+    private function resize(string $contents, int $maxWidth): string
     {
-        if (! function_exists('imagecreatefromstring') || ! function_exists('imagewebp')) {
-            return null;
+        if (! function_exists('imagecreatefromstring') || ! function_exists('imagewebp') || ! (gd_info()['WebP Support'] ?? false)) {
+            throw ValidationException::withMessages(['gallery' => 'El servidor necesita GD con soporte WebP para optimizar las fotografías.']);
         }
 
         $image = @imagecreatefromstring($contents);
 
         if ($image === false) {
-            return null;
+            throw ValidationException::withMessages(['gallery' => 'No se pudo leer la fotografía. Carga una imagen JPEG, PNG o WebP válida.']);
         }
 
         $image = $this->orient($image, $contents);
@@ -58,12 +54,19 @@ class ImageProcessor
         imagesavealpha($target, true);
         imagecopyresampled($target, $image, 0, 0, 0, 0, imagesx($target), imagesy($target), imagesx($image), imagesy($image));
         ob_start();
-        imagewebp($target, null, 84);
-        $result = ob_get_clean();
-        imagedestroy($image);
-        imagedestroy($target);
+        try {
+            $encoded = imagewebp($target, null, 84);
+        } finally {
+            $result = ob_get_clean();
+            imagedestroy($image);
+            imagedestroy($target);
+        }
 
-        return $result ?: null;
+        if (! $encoded || ! is_string($result) || $result === '') {
+            throw ValidationException::withMessages(['gallery' => 'No se pudo convertir la fotografía a WebP. Intenta cargarla de nuevo.']);
+        }
+
+        return $result;
     }
 
     private function orient(\GdImage $image, string $contents): \GdImage
