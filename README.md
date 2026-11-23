@@ -1,173 +1,43 @@
-# Nativa
+# Tejidos Yolis
 
-Tienda online pequeña.
+Catálogo de productos artesanales, construido con Laravel e InterNACHI Modular.
 
-Nativa está diseñada inicialmente para una tienda familiar, pero debe mantenerse genérica para poder vender diferentes tipos de productos en el futuro.
+- `app-modules/app`: panel contenedor para gestionar el negocio.
+- `app-modules/system`: administración de usuarios.
+- `app-modules/catalog`: productos, categorías, variantes, existencias, fotografías y recursos Filament.
+- `app-modules/storefront`: catálogo público, búsqueda, filtros, detalle, galería y contacto.
+- `app-modules/reference/finance` y `app-modules/reference/vault`: referencias técnicas inactivas, fuera del descubrimiento de módulos.
 
-## Stack
+## Desarrollo
 
-* **Vite** — Build tool
-* **Vanilla JavaScript** — Frontend
-* **Tailwind CSS** — Estilos
-* **Supabase** — Backend
-
-  * PostgreSQL
-  * Authentication
-  * Storage
-  * Row Level Security (RLS)
-* **GitHub Pages** — Hosting
-
-## Objetivo
-
-Construir un catálogo online sencillo que permita:
-
-* Mostrar productos y categorías.
-* Consultar precios y stock desde Supabase.
-* Mostrar el detalle de cada producto.
-* Administrar productos desde un panel privado.
-* Gestionar imágenes mediante Supabase Storage.
-* Indicar la disponibilidad de los productos.
-* Redirigir al cliente a WhatsApp para realizar la compra.
-
-La primera versión **no tendrá sistema de pedidos, pagos ni checkout propio**.
-
-## Arquitectura
-
-GitHub Pages sirve el frontend estático. Supabase proporciona los datos y servicios dinámicos.
-
-```text
-                  GitHub Pages
-                       │
-                       ▼
-                Vite + Vanilla JS
-                       │
-              ┌────────┴────────┐
-              │                 │
-         Storefront           Admin
-              │                 │
-              └────────┬────────┘
-                       │
-                   Supabase
-              ┌────────┼────────┐
-              │        │        │
-             Auth   PostgreSQL Storage
-                       │
-                      RLS
+```sh
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+npm ci
+npm run build
+composer run dev
 ```
 
-Supabase es la fuente de verdad para el catálogo.
+`php artisan db:seed` crea la categoría Ruanas sin productos de demostración. La administración del catálogo requiere un usuario administrador: `php artisan user:create --admin`.
 
-La seguridad debe implementarse mediante **Supabase Auth + Row Level Security (RLS)**. El frontend no debe utilizar secretos ni depender de ocultar rutas para proteger los datos.
+## Módulos
 
-## Datos
+Catalog y Storefront se crearon con `php artisan make:module`. Sus modelos, políticas, controlador y migración se generan con los comandos `make:` de InterNACHI y la opción `--module=catalog` o `--module=storefront`. Composer instala los módulos como paquetes locales; InterNACHI descubre sus rutas, vistas, migraciones, comandos y políticas.
 
-El modelo inicial será deliberadamente pequeño:
+Finance y Vault permanecen como dependencias de referencia con sus providers deshabilitados en `composer.json`. Sus directorios están un nivel por debajo de los módulos activos para evitar descubrir sus rutas, migraciones y comandos. Las pruebas que ya tenían se conservan y no se ejecutaron como parte de esta implementación.
 
-```text
-categories
-products
-```
+## Productos y fotografías
 
-### `categories`
+El producto contiene información comercial, publicación y características. Cada producto tiene al menos una variante con referencia, precio COP y existencias. Una pieza única admite una sola presentación y como máximo una unidad; una pieza sin existencias puede seguir publicada como Vendida. Los productos con variantes admiten distintas presentaciones, opciones, precios y cantidades.
 
-Categorías utilizadas para organizar los productos.
+La primera fotografía de la galería es la portada. Las imágenes pueden ordenarse, describirse y asociarse a variantes ya guardadas. Las fotos JPEG, PNG y WebP se guardan con nombres generados; con GD y soporte WebP se generan versiones optimizadas y miniaturas. Sin GD se conserva la imagen subida y se utiliza como respaldo. Docker incluye GD con soporte JPEG y WebP.
 
-### `products`
+`CATALOG_DISK` selecciona el disco (por defecto `public`; también puede usarse el disco existente `r2_public`). Con almacenamiento local, ejecuta `php artisan storage:link`. `STORE_WHATSAPP` configura el contacto del catálogo.
 
-Información básica del catálogo:
+El catálogo público está en `/productos`, la gestión de productos en `/app/productos` y las categorías en `/app/categorias`. Solo se muestran públicamente productos publicados con presentaciones activas y categoría visible. Los productos archivados y borradores quedan fuera de la tienda.
 
-* Nombre
-* Slug
-* Descripción
-* Precio
-* Stock
-* Categoría
-* Imagen
-* Estado de publicación
-
-No hay una tabla de roles: no existe registro público, las cuentas se crean manualmente (Supabase Dashboard → Authentication), y cualquier usuario autenticado tiene permisos de administrador.
-
-### Storage
-
-**Supabase Storage** se utilizará para almacenar las imágenes de los productos.
-
-## Flujo de compra
-
-No se almacenarán pedidos inicialmente.
-
-```text
-Cliente
-   ↓
-Catálogo
-   ↓
-Producto
-   ↓
-¿Disponible?
-   ↓
-Comprar
-   ↓
-WhatsApp
-```
-
-Si el producto está disponible, el botón **Comprar** generará un mensaje con la información del producto y abrirá WhatsApp de la tienda.
-
-## Panel administrativo
-
-El panel permitirá inicialmente:
-
-* Iniciar sesión.
-* Crear productos.
-* Editar productos.
-* Cambiar precios.
-* Actualizar stock.
-* Subir imágenes.
-* Publicar o desactivar productos.
-
-Las operaciones administrativas estarán protegidas mediante **Supabase Auth + RLS**.
-
-## Rutas iniciales
-
-```text
-/
-├── /productos
-├── /productos/:slug
-│
-└── /admin
-    ├── /login
-    ├── /productos
-    ├── /productos/nuevo
-    └── /productos/:id
-```
-
-El routing se implementará inicialmente con **Vanilla JavaScript + History API**.
-
-## Estado actual
-
-* [x] Proyecto Vite creado.
-* [x] Vanilla JavaScript.
-* [x] Tailwind CSS configurado.
-* [x] Proyecto Supabase creado.
-* [x] GitHub Pages definido como hosting.
-* [x] Estructura del proyecto.
-* [x] Router.
-* [x] Modelo de datos en Supabase (migración aplicada al proyecto remoto).
-* [x] Conexión con Supabase.
-* [x] Storefront.
-* [x] Catálogo.
-* [x] Autenticación.
-* [x] Panel administrativo.
-* [x] Gestión de imágenes.
-* [x] Integración con WhatsApp.
-* [x] Deploy (workflow listo; falta habilitar GitHub Pages y cargar los secrets — ver sección Dominio).
-
-## Principios
-
-1. Mantener el proyecto simple.
-2. Evitar infraestructura innecesaria.
-3. Mantener el frontend modular.
-4. Utilizar Supabase como fuente de verdad.
-5. Utilizar RLS para proteger los datos.
-6. Evitar dependencias innecesarias.
-7. Mantener la tienda independiente del tipo de producto.
-8. Priorizar una administración sencilla para usuarios no técnicos.
-9. Implementar primero las necesidades reales y evitar funcionalidades prematuras.
+Carrito, pagos, pedidos y registro público de clientes quedan para una siguiente etapa.
